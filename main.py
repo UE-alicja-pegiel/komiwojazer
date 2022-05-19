@@ -31,7 +31,7 @@ def trasa(macierz):
 def losowanie(macierz, liczba):
     osobniki = []
     wybrane = []
-    for i in range(liczba):
+    for i in range(liczba+1):
         wybor = random.choice(range(2, macierz[0][0]))
 
         while wybor in wybrane:
@@ -41,6 +41,15 @@ def losowanie(macierz, liczba):
 
         if len(wybrane) == 1:
             dlugosc = macierz[wybor][-1]
+
+        elif len(wybrane) == liczba+1:
+            osobniki = osobniki[1:]
+            indeks = -(abs(wybor - wybrane[0]) + 1)
+            if wybrane[0] > wybor:
+                dlugosc = macierz[wybrane[0]][indeks]
+            else:
+                dlugosc = macierz[wybor][indeks]
+
         else:
             indeks = -(abs(wybor - wybrane[i-1]) + 1)
             if wybrane[i-1] > wybor:
@@ -48,7 +57,10 @@ def losowanie(macierz, liczba):
             else:
                 dlugosc = macierz[wybor][indeks]
         osobniki.append(dlugosc)
+    print(wybrane)
     return osobniki
+
 
 osobniki = losowanie(matrix, 20)
 print(osobniki)
+
