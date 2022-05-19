@@ -1,5 +1,6 @@
 import random
 
+
 def wczytaj():
     berlin = open('berlin52.txt', 'r')
     tablica = berlin.read().split('\n')
@@ -7,6 +8,7 @@ def wczytaj():
     for element in tablica:
         nowa.append(element.split(' '))
     return nowa
+
 
 wczytane = wczytaj()
 matrix = []
@@ -16,7 +18,8 @@ for element in wczytane:
     for i in element:
         temp.append(int(i))
     matrix.append(temp)
-print(matrix)
+print('matrix: ', matrix)
+
 
 def trasa(macierz):
     dlugosc = 0
@@ -27,7 +30,25 @@ def trasa(macierz):
 
 def losowanie(macierz, liczba):
     osobniki = []
+    wybrane = []
+    for i in range(liczba):
+        wybor = random.choice(range(2, macierz[0][0]))
+
+        while wybor in wybrane:
+            wybor = random.choice(range(2, macierz[0][0]))
+
+        wybrane.append(wybor)
+
+        if len(wybrane) == 1:
+            dlugosc = macierz[wybor][-1]
+        else:
+            indeks = -(abs(wybor - wybrane[i-1]) + 1)
+            if wybrane[i-1] > wybor:
+                dlugosc = macierz[wybrane[i-1]][indeks]
+            else:
+                dlugosc = macierz[wybor][indeks]
+        osobniki.append(dlugosc)
     return osobniki
 
-print(trasa(matrix))
-print(losowanie(matrix, 20))
+osobniki = losowanie(matrix, 20)
+print(osobniki)
